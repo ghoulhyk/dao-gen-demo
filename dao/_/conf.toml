@@ -1,0 +1,20 @@
+[path2basic]
+    schema = "./_schema" # 数据表定义所在的文件夹
+[outsideConf] # 外部配置，目前仅用于 database.databaseInfos.outsideConfKey，不需要可删除
+    fullPackageName = "demo/conf" # 全包名，用于 import
+    aliasPackageName = "" # import 时的别名
+[ormInfo]
+    type = "xorm" # 使用的 orm 类型，目前仅支持 xorm
+    sessionGetterFunc = "db.NewSession()"  # 如何获取 session
+    sessionGetterImport = "\"demo/db\"" # 获取 session时需要导入的包，本项需要包裹在双引号中
+[database] # 数据库定义
+    [[database.databaseInfos]]
+        name = "db1" # 生成的 databaseDef 中的数据库配置项的字段名
+        defDatabaseList = ["db_1_test", "db_1_product"] # 数据表定义中的 @database 项
+#        actualName = "db1" # 数据库的库名；和 outsideConfKey 互斥
+        outsideConfKey = "GetIns().Mysql.DbName" # 数据的库名，本项配置的目的为如果在测试库和正式库中库名不同，可以通过本项获取；和 actualName 互斥
+    [[database.databaseInfos]]
+        name = "db2"
+        defDatabaseList = ["db_2_test", "db_2_product"]
+#        actualName = "db1"
+        outsideConfKey = "GetIns().Mysql.DbName"
